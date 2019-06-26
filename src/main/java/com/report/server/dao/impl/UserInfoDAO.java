@@ -21,6 +21,11 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
     private final static String QUERY_ID_HQL = "from UserInfoEntity where id = ?0";
     private final static String COUNT_USER_HQL = "select count(1) from UserInfoEntity;";
 
+    public static void main(String[] args) throws Exception {
+        UserInfoEntity userInfoEntity = new UserInfoDAO().queryUserInfoById(1212L);
+        System.out.println(JSONObject.toJSONString(userInfoEntity));
+    }
+
     @Override
     public Long insertUserInfo(UserInfoEntity entity) throws Exception {
         return save(entity);
@@ -38,15 +43,12 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
 
     @Override
     public Integer countUserInfo() throws Exception {
-        return count(COUNT_USER_HQL,null);
+        return count(COUNT_USER_HQL, null);
     }
 
     @Override
     public UserInfoEntity queryUserInfoById(Long id) throws Exception {
-        List<UserInfoEntity> query = query(QUERY_ID_HQL, new Object[]{id});
-        Integer cityId = query.get(0).getCityId();
-        System.out.println(cityId);
-        return query.get(0);
+        return query(id,UserInfoEntity.class);
     }
 
     @Override
@@ -57,13 +59,8 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
 
     @Override
     public boolean deleteUserInfo(Long id) {
-        delete(DELETE_ID_HQL,new Object[]{id});
+        delete(DELETE_ID_HQL, new Object[]{id});
         return true;
-    }
-
-    public static void main(String[] args) throws Exception {
-        UserInfoEntity userInfoEntity = new UserInfoDAO().queryUserInfoById(1212L);
-        System.out.println(JSONObject.toJSONString(userInfoEntity));
     }
 
 }
