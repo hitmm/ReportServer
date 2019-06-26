@@ -1,0 +1,26 @@
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+<!--    http://www.springframework.org/schema/beans/spring-beans.xsd">-->
+
+
+<!--    <import resource="applicationContext.dao.xml"/>-->
+<!--    <bean id="userInfoServiceImpl" class="com.report.service.impl.UserInfoServiceImpl">-->
+<!--        <constructor-arg ref="userInfoDAO"/>-->
+<!--    </bean>-->
+<!--    <bean id="referenceInfoServiceImpl" class="com.report.service.impl.ReferenceInfoServiceImpl">-->
+<!--        <constructor-arg ref="referenceInfoDAO"/>-->
+<!--    </bean>-->
+<!--    <bean id="cellInfoServiceImpl" class="com.report.service.impl.CellInfoServiceImpl">-->
+<!--        <constructor-arg ref="cellInfoDAO"/>-->
+<!--    </bean>-->
+<!--    <bean id="tableInfoServiceImpl" class="com.report.service.impl.TableInfoServiceImpl">-->
+<!--        <constructor-arg ref="tableInfoDAO"/>-->
+<!--    </bean>-->
+<!--    <bean id="tableContentServiceImpl" class="com.report.service.impl.TableContentServiceImpl">-->
+<!--        <property name="userInfoService" ref="userInfoServiceImpl"/>-->
+<!--        <property name="referenceInfoService" ref="referenceInfoServiceImpl"/>-->
+<!--        <property name="cellInfoService" ref="cellInfoServiceImpl"/>-->
+<!--        <property name="tableInfoService" ref="tableInfoServiceImpl"/>-->
+<!--    </bean>-->
+<!--</beans>-->
