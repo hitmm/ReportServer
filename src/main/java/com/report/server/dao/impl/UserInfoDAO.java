@@ -54,6 +54,9 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
     @Override
     public UserInfoEntity queryUserInfoByName(String userName) throws Exception {
         List<UserInfoEntity> resultTmp = query(QUERY_NAME_HQL, new Object[]{userName});
+        if(resultTmp==null||resultTmp.isEmpty()){
+            return null;
+        }
         return resultTmp.get(0);
     }
 
