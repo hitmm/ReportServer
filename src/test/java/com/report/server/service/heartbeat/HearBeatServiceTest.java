@@ -1,6 +1,5 @@
 package com.report.server.service.heartbeat;
 
-import com.report.server.service.heartbeat.message.HeartBeatBean;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -55,14 +54,14 @@ public class HearBeatServiceTest {
         }
 
         socketChannel = (SocketChannel) future.channel();
-        HeartBeatBean bean = new HeartBeatBean();
-        bean.setIp("127.0.0.1");
-        socketChannel.writeAndFlush(bean);
+//        HeartBeatBean bean = new HeartBeatBean();
+//        bean.setIp("127.0.0.1");
+//        socketChannel.writeAndFlush(bean);
     }
 
     @Test
     public void start1() throws InterruptedException {
         new HearBeatServiceTest().start();
-        Thread.sleep(1000000000);
+//        Thread.sleep(1000000000);
     }
 }

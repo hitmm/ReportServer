@@ -27,6 +27,7 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<HeartBeatBean>
                 LOGGER.info("已经10秒没收到消息了");
                 //向服务端发送消息
                 HeartBeatBean heartBeat = new HeartBeatBean();
+                heartBeat.setIp("127.0.0.1");
                 ctx.writeAndFlush(heartBeat).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
             }
 
