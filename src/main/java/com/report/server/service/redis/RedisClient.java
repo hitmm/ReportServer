@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.Jedis;
 
 /**
  * @Description TODO
@@ -19,13 +19,13 @@ public class RedisClient {
     @Autowired
     private RedisConfig jedisClusterConfig;
 
-    public JedisCluster getJedisCluster(){
-        return jedisClusterConfig.getJedisCluster();
+    public Jedis getJedisClient(){
+        return jedisClusterConfig.getJedisClient();
     }
 
     public boolean setToRedis(String key,Object value){
         try {
-            String str=jedisClusterConfig.getJedisCluster().set(key, String.valueOf(value));
+            String str= getJedisClient().set(key, String.valueOf(value));
             if("OK".equals(str)) {
                 return true;
             }
@@ -38,7 +38,7 @@ public class RedisClient {
     public Object getRedis(String key){
         String str=null;
         try {
-            str=jedisClusterConfig.getJedisCluster().get(key);
+            str= getJedisClient().get(key);
         }catch (Exception ex){
             log.error("getRedis:{Key:"+key+"}",ex);
         }

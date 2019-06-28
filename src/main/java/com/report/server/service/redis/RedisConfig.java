@@ -1,13 +1,12 @@
 package com.report.server.service.redis;
 
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,22 +18,17 @@ import java.util.Set;
 public class RedisConfig {
     private final static Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
-    @Value("${spring.redis.cluster.nodes}")
-    private String clusterNodes;
+    @Value("${spring.redis.single.nodes}")
+    private String singleNodes;
 
     @Bean
-    public JedisCluster getJedisCluster(){
+    public Jedis getJedisClient(){
         //分割集群节点
-        String[] cNodes = clusterNodes.split(",");
+        String[] hostPort = singleNodes.split(":");
         //创建set集合对象
         Set<HostAndPort> nodes =new HashSet<>();
-        for (String node:cNodes) {
-            //127.0.0.1:7001
-            String[] hp = node.split(":");
-            nodes.add(new HostAndPort(hp[0],Integer.parseInt(hp[1])));
-        }
-        logger.info(String.format("clusterNodes: %s.", JSONObject.toJSONString(nodes)));
-        //创建Redis集群对象
-        return new JedisCluster(nodes);
+        HostAndPort hostAndPort = new HostAndPort(hostPort[0],Integer.parseInt(hostPort[1]));
+        Jedis jedis = new Jedis(hostAndPort);
+        return jedis;
     }
 }

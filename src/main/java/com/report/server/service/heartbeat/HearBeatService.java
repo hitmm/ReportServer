@@ -25,6 +25,10 @@ public class HearBeatService implements IHeartBeatService{
     @Value("${spring.heartbeat.port}")
     private int nettyPort;
 
+    public IHeartBeatService getInstance(){
+        return Singleton.INSTANCE;
+    }
+
     @Override
     @PostConstruct
     public void start() throws Exception {
@@ -50,5 +54,9 @@ public class HearBeatService implements IHeartBeatService{
         boss.shutdownGracefully().syncUninterruptibly();
         work.shutdownGracefully().syncUninterruptibly();
         LOGGER.info("heartbeat service shutdown success......");
+    }
+
+    private final static class Singleton {
+        private final static IHeartBeatService INSTANCE = new HearBeatService();
     }
 }

@@ -3,6 +3,8 @@ package com.report.server.service.heartbeat;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +20,10 @@ public class HeartBeatHolder {
         String clientIP = insocket.getAddress().getHostAddress();
         livingClientMap.put(ident,channel);
         livingClientIdMap.put(clientIP,ident);
+    }
+
+    public static List<NioSocketChannel> getLivingClient(){
+        return new ArrayList<>(livingClientMap.values());
     }
 
     public static synchronized void closeClient(String ident){

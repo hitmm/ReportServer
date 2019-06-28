@@ -1,6 +1,7 @@
 package com.report.server.service.heartbeat;
 
 import com.alibaba.fastjson.JSONObject;
+import com.report.server.model.service.message.HeartBeatMessage;
 import com.report.server.service.heartbeat.message.HeartBeatBean;
 import com.report.server.service.utils.IpUtil;
 import com.report.server.service.utils.UUIDUtils;
@@ -15,18 +16,18 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 
-public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBeatBean> {
+public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBeatMessage> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(HeartBeatChannelHandler.class);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext context, HeartBeatBean bean) throws Exception {
+    protected void channelRead0(ChannelHandlerContext context, HeartBeatMessage bean) throws Exception {
         if(bean==null){
             LOGGER.info("ERROR HeartBeatBean");
             return;
         }
-        LOGGER.info(String.format("Client(%s) send heartBeat...remoteIp:%s.",bean.getIdent(),bean.getIp()));
-        HeartBeatHolder.putOrFreshClient(bean.getIdent(), (NioSocketChannel) context.channel());
+        LOGGER.info(String.format("Client(%s) send heartBeat...remoteIp:%s.",bean.getClientId(),bean.getIp()));
+        HeartBeatHolder.putOrFreshClient(bean.getClientId(), (NioSocketChannel) context.channel());
     }
 
     @Override
