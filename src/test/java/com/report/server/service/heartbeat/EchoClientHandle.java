@@ -1,7 +1,7 @@
 package com.report.server.service.heartbeat;
 
 import com.alibaba.fastjson.JSONObject;
-import com.report.server.service.heartbeat.message.HeartBeatBean;
+import com.report.server.model.service.message.HeartBeatMessage;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * E-mail:hxyHelloWorld@163.com
  * github:https://github.com/haoxiaoyong1014
  */
-public class EchoClientHandle extends SimpleChannelInboundHandler<HeartBeatBean> {
+public class EchoClientHandle extends SimpleChannelInboundHandler<HeartBeatMessage> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EchoClientHandle.class);
 
@@ -26,7 +26,7 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<HeartBeatBean>
             if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
                 LOGGER.info("已经10秒没收到消息了");
                 //向服务端发送消息
-                HeartBeatBean heartBeat = new HeartBeatBean();
+                HeartBeatMessage heartBeat = new HeartBeatMessage();
                 heartBeat.setIp("127.0.0.1");
                 ctx.writeAndFlush(heartBeat).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
             }
@@ -42,7 +42,7 @@ public class EchoClientHandle extends SimpleChannelInboundHandler<HeartBeatBean>
      * @throws Exception
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HeartBeatBean bean) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HeartBeatMessage bean) throws Exception {
         //从服务端收到消息时被调用
         LOGGER.info(String.format("客户端收到消息=%s", JSONObject.toJSONString(bean)));
     }

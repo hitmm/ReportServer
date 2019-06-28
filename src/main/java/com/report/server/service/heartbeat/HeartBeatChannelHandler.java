@@ -2,7 +2,6 @@ package com.report.server.service.heartbeat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.report.server.model.service.message.HeartBeatMessage;
-import com.report.server.service.heartbeat.message.HeartBeatBean;
 import com.report.server.service.utils.IpUtil;
 import com.report.server.service.utils.UUIDUtils;
 import io.netty.channel.ChannelFutureListener;
@@ -27,7 +26,7 @@ public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBe
             return;
         }
         LOGGER.info(String.format("Client(%s) send heartBeat...remoteIp:%s.",bean.getClientId(),bean.getIp()));
-        HeartBeatHolder.putOrFreshClient(bean.getClientId(), (NioSocketChannel) context.channel());
+        HeartBeatHolder.putOrFreshClientByIp(bean.getIp(), (NioSocketChannel) context.channel());
     }
 
     @Override
@@ -37,8 +36,8 @@ public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBe
         LOGGER.info(String.format("********************************new Client connected....remoteIp:%s.",clientIP));
         String clientId = UUIDUtils.generateId();
         String localIp = IpUtil.getLocalIp();
-        HeartBeatBean bean = new HeartBeatBean();
-        bean.setIdent(clientId);
+        HeartBeatMessage bean = new HeartBeatMessage();
+        bean.setClientId(clientId);
         bean.setIp(localIp);
         ctx.writeAndFlush(bean);
         HeartBeatHolder.putOrFreshClient(clientId, (NioSocketChannel) ctx.channel());
@@ -62,7 +61,7 @@ public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBe
             if (idleStateEvent.state() == IdleState.READER_IDLE) {
                 LOGGER.info(String.format("No information has been received for some seconds,we will disconnected.remoteIp : %s.",clientIP));
                 //向客户端发送消息
-                HeartBeatBean bean = new HeartBeatBean();
+                HeartBeatMessage bean = new HeartBeatMessage();
                 bean.setIp(IpUtil.getLocalIp());
                 ctx.writeAndFlush(bean).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
             }

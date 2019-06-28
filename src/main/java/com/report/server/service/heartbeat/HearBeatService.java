@@ -32,7 +32,7 @@ public class HearBeatService implements IHeartBeatService{
     @Override
     @PostConstruct
     public void start() throws Exception {
-        LOGGER.info("heartbeat service starting......");
+        LOGGER.info("heartbeat service starting......port:"+nettyPort);
         ServerBootstrap bootstrap = new ServerBootstrap() //(2)
                 .group(boss, work)
                 .channel(NioServerSocketChannel.class)// (3)

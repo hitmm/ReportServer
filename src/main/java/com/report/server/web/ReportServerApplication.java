@@ -1,7 +1,11 @@
 package com.report.server.web;
 
+import com.report.server.model.service.message.MessageType;
+import com.report.server.model.service.message.PushMessage;
 import com.report.server.service.heartbeat.HearBeatService;
 import com.report.server.service.heartbeat.IHeartBeatService;
+import com.report.server.service.serverpush.IPushService;
+import com.report.server.service.serverpush.PushService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +21,8 @@ public class ReportServerApplication {
 
     private static IHeartBeatService hearBeatService = new HearBeatService();
 
+    private static IPushService pushService = new PushService();
+
     public static void main(String[] args) throws Exception {
         logger.info("##################################ReportServerApplication init Start ....");
         SpringApplication.run(ReportServerApplication.class, args);
@@ -27,6 +33,14 @@ public class ReportServerApplication {
             hearBeatService.stop();
         }
         logger.info("##################################ReportServerApplication init End ....");
+       while (true){
+           Thread.sleep(10*1000);
+           PushMessage message = new PushMessage();
+           message.setContent("hahah");
+           message.setMessageIdent("AASDADA");
+           message.setType(MessageType.MSG_PUSH);
+           pushService.push(message);
+       }
     }
 
 }

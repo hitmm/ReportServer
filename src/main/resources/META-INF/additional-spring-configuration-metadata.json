@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "spring.heartbeat.port",
+      "type": "java.lang.String",
+      "description": "Description for spring.heartbeat.port."
+    },
+    {
+      "name": "spring.heartbeat.all.idletime",
+      "type": "java.lang.String",
+      "description": "Description for spring.heartbeat.all.idletime."
+    }
+  ] }

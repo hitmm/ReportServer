@@ -22,6 +22,11 @@ public class HeartBeatHolder {
         livingClientIdMap.put(clientIP,ident);
     }
 
+    public static synchronized void putOrFreshClientByIp(String ip,NioSocketChannel channel){
+        String ident = livingClientIdMap.get(ip);
+        livingClientMap.put(ident,channel);
+    }
+
     public static List<NioSocketChannel> getLivingClient(){
         return new ArrayList<>(livingClientMap.values());
     }
