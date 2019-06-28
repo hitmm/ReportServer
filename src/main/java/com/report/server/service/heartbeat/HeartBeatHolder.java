@@ -21,6 +21,9 @@ public class HeartBeatHolder {
         livingClientMap.put(ident,channel);
         livingClientIdMap.put(clientIP,ident);
     }
+    public static String getIdentByIp(String ip){
+        return livingClientIdMap.get(ip);
+    }
 
     public static synchronized void putOrFreshClientByIp(String ip,NioSocketChannel channel){
         String ident = livingClientIdMap.get(ip);

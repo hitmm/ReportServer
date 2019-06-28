@@ -10,6 +10,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,11 @@ public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBe
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
         LOGGER.info(String.format("********************************new Client connected....remoteIp:%s.",clientIP));
-        String clientId = UUIDUtils.generateId();
+        String clientId = HeartBeatHolder.getIdentByIp(clientIP);
+        if(StringUtils.isEmpty(clientId)){
+            //新生成id
+            clientId = UUIDUtils.generateId();
+        }
         String localIp = IpUtil.getLocalIp();
         HeartBeatMessage bean = new HeartBeatMessage();
         bean.setClientId(clientId);
@@ -62,7 +67,9 @@ public class HeartBeatChannelHandler extends SimpleChannelInboundHandler<HeartBe
                 LOGGER.info(String.format("No information has been received for some seconds,we will disconnected.remoteIp : %s.",clientIP));
                 //向客户端发送消息
                 HeartBeatMessage bean = new HeartBeatMessage();
+                String ident = HeartBeatHolder.getIdentByIp(clientIP);
                 bean.setIp(IpUtil.getLocalIp());
+                bean.setClientId(ident);
                 ctx.writeAndFlush(bean).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
             }
         }

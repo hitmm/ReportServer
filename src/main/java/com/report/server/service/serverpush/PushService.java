@@ -6,10 +6,13 @@ import com.report.server.service.heartbeat.HeartBeatHolder;
 import com.report.server.service.utils.TimeUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -19,8 +22,12 @@ import java.util.List;
  *  
  */
 @Component
+@Data
 public class PushService implements IPushService{
     private final static Logger logger = LoggerFactory.getLogger(PushService.class);
+
+    @Autowired
+    private IPushFilter filter;
 
     @Override
     public void push(PushMessage message) throws Exception {
@@ -33,7 +40,12 @@ public class PushService implements IPushService{
                 return;
             }
             for (Channel channel : livingClients){
-                channel.writeAndFlush(message);
+                InetSocketAddress insocket = (InetSocketAddress)channel.remoteAddress();
+                String clientIP = insocket.getAddress().getHostAddress();
+                boolean filter = this.filter.filter(clientIP);
+                if(filter){
+                    channel.writeAndFlush(message);
+                }
             }
         } catch (Exception e) {
             logger.warn(String.format("Exception : %s.",e.getMessage()),e);

@@ -66,4 +66,9 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
         return true;
     }
 
+    @Override
+    public List<UserInfoEntity> queryUserInfoCustom(String sql, Object[] params) throws Exception {
+        return nativeQuery(sql,params,UserInfoEntity.class);
+    }
+
 }

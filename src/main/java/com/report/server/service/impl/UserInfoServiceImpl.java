@@ -8,6 +8,8 @@ import com.report.server.service.service.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Description TODO
  * @Author huguangyin
@@ -27,6 +29,11 @@ public class UserInfoServiceImpl implements IUserInfoService {
     @Override
     public UserInfoEntity queryUserInfo(Long id) throws Exception {
         return userInfoDAO.queryUserInfoById(id);
+    }
+
+    @Override
+    public List<UserInfoEntity> queryUserInfoCustom(String hql, Object[] params) throws Exception {
+        return userInfoDAO.queryUserInfoCustom(hql,params);
     }
 
     @Override

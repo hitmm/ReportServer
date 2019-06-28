@@ -3,6 +3,8 @@ package com.report.server.service.service;
 
 import com.report.server.model.dao.entity.UserInfoEntity;
 
+import java.util.List;
+
 /**
  * @Description TODO
  * @Author huguangyin
@@ -18,6 +20,14 @@ public interface IUserInfoService {
      * @throws Exception
      */
     UserInfoEntity queryUserInfo(Long id)throws Exception;
+
+    /**
+     * 查询用户信息
+     * @param sql 自定义sql
+     * @return
+     * @throws Exception
+     */
+    List<UserInfoEntity> queryUserInfoCustom(String sql, Object[] params)throws Exception;
 
     /**
      * 查询用户信息
