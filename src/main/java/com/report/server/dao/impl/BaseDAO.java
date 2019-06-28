@@ -68,7 +68,7 @@ public class BaseDAO {
 
         if (params != null && params.length > 0) {
             for (int i = 0; i < params.length; i++) {
-                query.setParameter(i, params[i]);
+                query.setParameter(i+1, params[i]);
             }
         }
         query.addEntity(entityClazz);
